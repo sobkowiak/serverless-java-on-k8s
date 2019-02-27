@@ -1,0 +1,11 @@
+# Serverless Java on Kubernetes - demo
+
+
+## Preparing
+
+* Initialize environment variables
++
+[source,bash]
+----
+export DEMO_BASE=~/techtalk
+----
