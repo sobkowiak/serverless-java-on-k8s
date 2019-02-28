@@ -1,0 +1,158 @@
+﻿oc login -u developer https://infranode-2700.generic.opentlc.com:8443 --insecure-skip-tls-verify=true
+ssh krzysztof.sobkowiak-capgemini.co@workstation-2700.rhpds.opentlc.com
+
+
+##### Greeter
+
+wsk -i package create greeter
+wsk -i action create greeter/greeter greeter.js
+
+wsk -i action invoke greeter/greeter -r
+wsk -i action invoke greeter/greeter
+wsk -i activation result -l
+wsk -i activation list -l 5
+
+wskdeploy -m manifest_greeter.yml
+wskdeploy undeploy -m manifest_greeter.yml
+
+###### msgaction (js, py)
+
+wsk -i action create msgaction msgaction.js
+
+wsk -i action invoke msgaction -r -p body '{"text":"Tech Talk SE"}'
+wsk -i action invoke msgaction  -p body '{"text":"Tech Talk SE"}'
+
+wsk -i activation result -l
+wsk -i activation list -l 5
+
+wsk -i action update msgaction msgaction.py
+wsk -i action invoke msgaction -r -p body '{"text":"Tech Talk SE"}'
+
+
+while (true); do wsk -i action invoke msgaction -r -p body '{"text":"Tech Talk SE"}'; done
+
+
+####### msgaction (java)
+
+wsk -i action update msgaction target/hello-msgaction.jar --main com.example.FunctionApp
+wsk -i action invoke msgaction -r -p body '{"text":"Tech Talk SE"}'
+
+wsk -i action delete msgaction
+
+####### packages
+
+wsk -i package create hello
+wsk -i action update hello/msgaction target/hello-msgaction.jar --main com.example.FunctionApp
+wsk -i action invoke hello/msgaction -r -p body '{"text":"Tech Talk SE"}'
+wsk -i action delete hello/msgaction
+
+##### wskdeploy
+
+
+wskdeploy -m manifest_java-msgaction.yml
+wsk -i action invoke hello/msgaction -r -p body '{"text":"Tech Talk SE"}'
+wskdeploy undeploy -m manifest_java-msgaction.yml
+
+###### webaction
+
+wsk -i package create webaction
+wsk -i action create webaction/hello-web target/hello-webaction.jar --main com.example.FunctionApp --web true
+wsk -i action delete webaction/hello-web
+
+
+wskdeploy -m manifest_java-webaction.yml 
+
+wsk -i action get --url webaction/hello-web | awk 'FNR==2{print $1".json"}'
+WEB_URL=`wsk -i action get --url webaction/hello-web | awk 'FNR==2{print $1".json"}'`
+echo $WEB_URL 
+
+curl -k https://openwhisk-faas.apps-2700.generic.opentlc.com/api/v1/web/whisk.system/webaction/hello-web.http?text=TechTalk
+curl -k https://openwhisk-faas.apps-2700.generic.opentlc.com/api/v1/web/whisk.system/webaction/hello-web.json?text=TechTalk
+curl -k https://openwhisk-faas.apps-2700.generic.opentlc.com/api/v1/web/whisk.system/webaction/hello-web.json -d '{"text" : "TechTalk" }' -H 'Content-Type: application/json'
+
+wsk -i action update webaction/hello-web --web false
+
+wskdeploy undeploy -m manifest_java-webaction.yml 
+
+############ sequence
+
+mvn clean package -f sorter/pom.xml
+mvn clean package -f splitter/pom.xml
+mvn clean package -f uppercase/pom.xml
+
+
+wsk -i package create sequence
+wsk -i action create sequence/sorter sorter/target/sorter.jar --main com.example.FunctionApp
+wsk -i action create sequence/splitter splitter/target/splitter.jar --main com.example.FunctionApp
+wsk -i action create sequence/uppercase uppercase/target/uppercase.jar --main com.example.FunctionApp
+wsk -i action update sequence/splitUpperAndSort --sequence sequence/splitter,sequence/uppercase,sequence/sorter
+
+
+wsk -i action delete sequence/splitUpperAndSort
+wsk -i action delete sequence/splitter
+wsk -i action delete sequence/uppercase
+wsk -i action delete sequence/sorter
+wsk -i package delete sequence
+
+
+wskdeploy -m manifest_sequence.yml
+wsk -i package get --summary /whisk.system/sequence
+wsk -i action invoke sequence/splitUpperAndSort -p text "Java,Python,Swift,JavaScript,Ruby,C" -r
+wskdeploy undeploy -m manifest_sequence.yml
+
+######### greeter trigger
+
+wskdeploy -m manifest_greeter.yml
+
+wsk -i trigger create greeter-trigger
+wsk -i rule create greeter-rule greeter-trigger greeter/greeter
+
+wsk -i trigger fire greeter-trigger
+
+wsk -i rule delete greeter-rule
+wsk -i trigger delete greeter-trigger
+wskdeploy undeploy -m manifest_greeter.yml
+
+wskdeploy -m manifest_greeter_trigerrule.yml
+wsk -i trigger fire greeter-trigger
+wskdeploy undeploy -m manifest_greeter_trigerrule.yml
+
+########## greeting trigger 
+
+wsk  -i action invoke /whisk.system/samples/greeting -r
+wsk  -i action invoke /whisk.system/samples/greeting -r -p name "Tech Talk" -p place Wroclaw
+
+wsk -i trigger create every-5-seconds \
+    --feed  /whisk.system/alarms/alarm \
+    --param cron '*/5 * * * * *' \
+    --param maxTriggers 25 \
+    --param trigger_payload "{\"name\":\"Tech Talk SE\",\"place\":\"Wroclaw\"}"
+
+wsk -i rule create invoke-periodically \
+    every-5-seconds \
+    /whisk.system/samples/greeting
+
+
+wsk -i activation poll
+
+
+wsk -i rule delete invoke-periodically
+wsk -i trigger delete every-5-seconds
+
+
+
+######### qr
+
+gradle jar
+wsk -i package create qr
+wsk -i action create qr/generate build/libs/wsk-qr-1.0.jar --main qr.Generate --web true
+wsk -i action create qr/ui src/main/js/qr/ui.js --web true
+
+wsk -i action get qr/ui --url | tail -1 | awk '{print $1".html"}'
+wsk -i action get qr/generate --url | tail -1 | awk '{print $1".http"}'
+
+
+
+
+
+
