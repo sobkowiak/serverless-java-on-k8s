@@ -11,3 +11,5 @@ export MINIKUBE_HOME=$WKS_HOME/soft/minikube_$MINIKUBE_VERSION;
 export PATH=$TOOLS_HOME/bin:$MINIKUBE_HOME/.minikube/cache/$KUBERNETES_VERSION:$PATH
 export KUBECONFIG=$MINIKUBE_HOME/.kube/config
 #export KUBE_EDITOR="vim"
+
+export HELM_HOME=$MINIKUBE_HOME/.helm

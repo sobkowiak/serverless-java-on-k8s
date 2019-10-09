@@ -1,11 +1,12 @@
 #!/bin/bash
 
-#minikube config set profile 4developers
+minikube config set profile 4developers
 #minikube config set vm-driver virtualbox
-#minikube config set cpus 7
+#minikube config set cpus 5
 #minikube config set memory 10240
 #minikube config set disk-size 50g
-#minikube config set kubernetes-version v1.15.2
+#minikube config set kubernetes-version $KUBERNETES_VERSION
+minikube config set WantUpdateNotification false
 
 minikube start -p 4developers --memory=10240 --cpus=5 \
   --kubernetes-version=$KUBERNETES_VERSION \

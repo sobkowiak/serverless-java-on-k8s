@@ -60,4 +60,3 @@ fi
 if [ ! -f $TOOLS_HOME/bin/kubectx  ]; then
     curl -L https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx -o $TOOLS_HOME/bin/kubectx
 fi
-
