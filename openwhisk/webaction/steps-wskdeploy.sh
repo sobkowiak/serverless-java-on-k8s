@@ -1,7 +1,6 @@
 #!/bin/bash
 
-wsk -i package create webaction
-wsk -i action create webaction/hello-web target/hello-webaction.jar --main org.sobkowiak.demos.openwhisk.FunctionApp --web true
+wskdeploy -m manifest_java-webaction.yml
 
 wsk -i action get --url webaction/hello-web 
 wsk -i action get --url webaction/hello-web | awk 'FNR==2{print $1""}'
@@ -18,6 +17,4 @@ curl -k  -H 'Content-Type: application/json' -X POST $WEB_URL.json -d '{"text" :
 wsk -i action update webaction/hello-web --web false
 curl -k $WEB_URL?text=4developers
 
-wsk -i action delete webaction/hello-web
-wsk -i package delete webaction
-
+wskdeploy undeploy -m manifest_java-webaction.yml
