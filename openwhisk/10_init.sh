@@ -4,7 +4,6 @@ source 00_setenv.sh
 
 source <(kubectl completion bash)
 source <(minikube completion bash)
-source <(kamel completion bash)
 source <(wsk sdk install bashauto --stdout)
 
 export OW_API_HOST_NAME=$(minikube ip)
