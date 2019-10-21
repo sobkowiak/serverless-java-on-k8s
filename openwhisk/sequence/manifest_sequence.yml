@@ -1,0 +1,22 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more contributor
+# license agreements; and to You under the Apache License, Version 2.0.
+
+packages:
+  sequence:
+    actions:
+      sorter:
+        function: sorter/target/sorter.jar
+        runtime: java
+        main: org.sobkowiak.demos.openwhisk.FunctionApp
+      splitter:
+        function: splitter/target/splitter.jar
+        runtime: java
+        main: org.sobkowiak.demos.openwhisk.FunctionApp
+      uppercase:
+        function: uppercase/target/uppercase.jar
+        runtime: java
+        main: org.sobkowiak.demos.openwhisk.FunctionApp
+
+    sequences:
+      splitUpperAndSort:
+        actions: splitter, uppercase, sorter
