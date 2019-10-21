@@ -1,0 +1,11 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more contributor
+# license agreements; and to You under the Apache License, Version 2.0.
+
+packages:
+  webaction:
+    actions:
+      hello-web:
+        function: target/hello-webaction.jar
+        runtime: java
+        main: org.sobkowiak.demos.openwhisk.FunctionApp
+        web-export: true
