@@ -28,7 +28,7 @@ public class FunctionApp {
     JsonObject body = params.get("body").getAsJsonObject();
     response.addProperty("payload", "Hello " +
       params.getAsJsonObject("body").get("text").getAsString() +
-      " from Java on OpenWhisk on OpenShift");
+      " from Java on OpenWhisk on Kubernetes");
     return response;
   }
 }

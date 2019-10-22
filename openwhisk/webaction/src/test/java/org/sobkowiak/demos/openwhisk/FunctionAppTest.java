@@ -35,6 +35,6 @@ public class FunctionAppTest {
     assertNotNull(response);
     String greetings = response.getAsJsonPrimitive("body").getAsString();
     assertNotNull(greetings);
-    assertEquals("Hello all from Java on OpenWhisk on OpenShift", greetings);
+    assertEquals("Hello all from Java on OpenWhisk on Kubernetes", greetings);
   }
 }

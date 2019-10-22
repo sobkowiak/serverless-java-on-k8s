@@ -5,5 +5,5 @@ function main(params) {
         console.log("%s: %j", key, params["body"][key])
     });
 
-    return {payload: 'Hello ' + params.body.text + ' from JavaScript on OpenWhisk on OpenShift '};
+    return {payload: 'Hello ' + params.body.text + ' from JavaScript on OpenWhisk on Kubernetes '};
 }

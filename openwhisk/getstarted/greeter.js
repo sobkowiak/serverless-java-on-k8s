@@ -1,3 +1,3 @@
 function main() {
-    return {payload: 'Welcome to OpenWhisk on OpenShift'};
+    return {payload: 'Welcome to OpenWhisk on Kubernetes'};
 }
