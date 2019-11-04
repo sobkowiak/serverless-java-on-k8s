@@ -58,3 +58,5 @@ EOF
 helm template $OW_K8S_DEPLOY_HOME/helm/openwhisk/ --namespace=openwhisk --name=owdev -f $OW_K8S_DEPLOY_HOME/helm/openwhisk/cluster.yaml \
   > $OW_K8S_DEPLOY_HOME/helm/openwhisk/ow-template.yaml
 kubectl -n openwhisk create -f $OW_K8S_DEPLOY_HOME/helm/openwhisk/ow-template.yaml
+
+# kubectl set env statefulsets.apps owdev-invoker CONFIG_whisk_containerProxy_timeouts_idleContainer="1 minute" CONFIG_whisk_containerProxy_timeouts_pauseGrace="5 seconds"
