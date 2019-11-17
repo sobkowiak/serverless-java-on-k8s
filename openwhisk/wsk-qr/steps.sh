@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git clone https://github.com/rabbah/wsk-qr.git
+#git clone https://github.com/rabbah/wsk-qr.git
 cd wsk-qr
 
 

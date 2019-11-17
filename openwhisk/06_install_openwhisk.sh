@@ -13,7 +13,9 @@ done
 kubectl create clusterrolebinding tiller-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default
 
 
-#git clone git@github.com:apache/openwhisk-deploy-kube.git
+# git clone git@github.com:apache/openwhisk-deploy-kube.git
+# cd openwhisk-deploy-kube.git
+# git checkout 8802eb423eda50bb8ad940ec84ebb5f22d4a5696
 
 export OW_K8S_DEPLOY_HOME=$WKS_HOME/openwhisk-deploy-kube
 export OW_API_HOST_NAME=$(minikube ip)

@@ -4,4 +4,5 @@ source 00_setenv.sh
 
 source <(kubectl completion bash)
 source <(minikube completion bash)
-source <(kamel completion bash)
+#source <(kamel completion bash)
+eval $(minikube docker-env)
