@@ -7,16 +7,16 @@
 
 eval $(minikube docker-env)
 
-docker pull burrsutter/booted:<none>
-docker pull burrsutter/quarked:<none>
-docker pull burrsutter/noded:<none>
+docker pull burrsutter/booted:2.0.0
+docker pull burrsutter/quarked:1.0.2
+docker pull burrsutter/noded:1.0.1
 docker pull openzipkin/zipkin:2.13.0
 docker pull istio/proxyv2:1.1.7
 docker pull istio/pilot:1.1.7
 docker pull istio/node-agent-k8s:1.1.7
 docker pull istio/kubectl:1.1.7
-docker pull quay.io/rhdevelopers/prime-generator:<none>
-docker pull quay.io/rhdevelopers/knative-tutorial-greeter:<none>
+docker pull quay.io/rhdevelopers/prime-generator:v27-quarkus
+docker pull quay.io/rhdevelopers/knative-tutorial-greeter:quarkus
 docker pull alpine:3.6
 docker pull k8s.gcr.io/kube-addon-manager:v9.0
 docker pull k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.1

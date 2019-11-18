@@ -14,3 +14,6 @@ export KUBECONFIG=$MINIKUBE_HOME/.kube/config
 #export KUBE_EDITOR="vim"
 
 export HELM_HOME=$MINIKUBE_HOME/.helm
+
+
+source $WKS_HOME/serverless-java/tmux_functions.sh

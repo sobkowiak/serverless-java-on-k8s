@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-wsk -i action create msgaction msgaction.js
+wsk -i action update msgaction msgaction.js
 
 wsk -i action invoke msgaction -r -p body '{"text":"4developers"}'
 sleep 3
